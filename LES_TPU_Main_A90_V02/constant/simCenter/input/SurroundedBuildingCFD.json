@@ -1,0 +1,208 @@
+{
+    "EventClassification": "Wind",
+    "GeometricData": {
+        "buildingDepth": 24,
+        "buildingHeight": 18,
+        "buildingWidth": 16,
+        "domainHeight": 1.8,
+        "domainLength": 7.2,
+        "domainWidth": 2.2,
+        "fetchLength": 2.2,
+        "geometricScale": 100,
+        "origin": [
+            0,
+            0,
+            0
+        ],
+        "originOption": "Building Bottom Center",
+        "surroundingBuildingsInformation": {
+            "boundingRadius": 100,
+            "randomness": 0,
+            "streetWidthX": 30,
+            "streetWidthY": 30,
+            "surroundingBuildingsDepth": 24,
+            "surroundingBuildingsHeight": 18,
+            "surroundingBuildingsWidth": 16
+        },
+        "useCOST": true,
+        "windDirection": 0
+    },
+    "OpenFoamVersion": "10",
+    "angleUnit": "degree",
+    "blockMeshParameters": {
+        "backBoundaryType": "symmetry",
+        "frontBoundaryType": "symmetry",
+        "groundBoundaryType": "wall",
+        "inletBoundaryType": "patch",
+        "outletBoundaryType": "patch",
+        "topBoundaryType": "symmetry",
+        "xGrading": 1,
+        "xNumCells": 120,
+        "yGrading": 1,
+        "yNumCells": 36,
+        "zGrading": 1,
+        "zNumCells": 30
+    },
+    "boundaryConditions": {
+        "buildingBoundaryCondition": "smoothWallFunction",
+        "groundBoundaryCondition": "roughWallFunction",
+        "inletBoundaryCondition": "MeanABL",
+        "outletBoundaryCondition": "zeroPressureOutlet",
+        "sidesBoundaryCondition": "slip",
+        "surroundingBoundaryCondition": "smoothWallFunction",
+        "topBoundaryCondition": "slip"
+    },
+    "caseDirectoryPath": "C:/D/SimCenter/LES_TPU_Main_A90_V02",
+    "lengthUnit": "m",
+    "massUnit": "kg",
+    "numericalSetup": {
+        "adjustTimeStep": true,
+        "duration": 19,
+        "maxCourantNumber": 4,
+        "numCorrectors": 2,
+        "numNonOrthogonalCorrectors": 1,
+        "numOuterCorrectors": 1,
+        "numProcessors": 96,
+        "runInParallel": true,
+        "solverType": "pimpleFoam",
+        "timeStep": 0.0025
+    },
+    "resultMonitoring": {
+        "baseLoadWriteInterval": 1,
+        "centerOfRotation": [
+            0,
+            0,
+            0
+        ],
+        "floorHeight": 0.018,
+        "monitorBaseLoad": false,
+        "monitorSurfacePressure": false,
+        "numStories": 6,
+        "numTapsAlongDepth": 1,
+        "numTapsAlongHeight": 1,
+        "numTapsAlongWidth": 1,
+        "pressureSamplingPoints": [
+            [
+                -0.12000100314617157,
+                -1.7881393032936899e-09,
+                0.09000000357627869
+            ],
+            [
+                0.12000100314617157,
+                -1.7881393032936899e-09,
+                0.09000000357627869
+            ],
+            [
+                -2.6822091214739885e-09,
+                -0.08000099658966064,
+                0.09000000357627869
+            ],
+            [
+                -2.6822091214739885e-09,
+                0.08000099658966064,
+                0.09000000357627869
+            ],
+            [
+                -2.6822091214739885e-09,
+                -1.7881393032936899e-09,
+                0.18000100553035736
+            ]
+        ],
+        "pressureWriteInterval": 1,
+        "storyLoadWriteInterval": 2
+    },
+    "snappyHexMeshParameters": {
+        "addEdgeRefinements": true,
+        "addPrismLayers": false,
+        "addSurfaceRefinements": true,
+        "buildingSTLName": "building",
+        "edgeRefinements": [
+            {
+                "level": 6,
+                "meshSize": 0.0015625,
+                "name": "building"
+            },
+            {
+                "level": 5,
+                "meshSize": 0.0018865,
+                "name": "surroundings"
+            }
+        ],
+        "finalPrismLayerThickness": 0.5,
+        "lengthUnit": "m",
+        "numCellsBetweenLevels": 5,
+        "numProcessors": 4,
+        "numberOfPrismLayers": 5,
+        "prismLayerExpansionRatio": 1.15,
+        "prismLayerSurfaceName": "building",
+        "refinementBoxes": [
+            [
+                "Box1",
+                1,
+                -2.2,
+                -1.1,
+                0,
+                2,
+                1.1,
+                0.9
+            ],
+            [
+                "Box2",
+                2,
+                -2.2,
+                -1.1,
+                0,
+                1.25,
+                1.1,
+                0.45
+            ],
+            [
+                "Box3",
+                3,
+                -0.9,
+                -0.25,
+                0,
+                0.9,
+                0.25,
+                0.3
+            ]
+        ],
+        "resolveFeatureAngle": 30,
+        "runInParallel": false,
+        "snappyHexMeshCompleted": false,
+        "surfaceRefinements": [
+            {
+                "distance": 0.1,
+                "maxLevel": 4,
+                "meshSize": 0.00279151,
+                "minLevel": 4,
+                "name": "surroundings"
+            },
+            {
+                "distance": 0.1,
+                "maxLevel": 5,
+                "meshSize": 0.003125,
+                "minLevel": 5,
+                "name": "building"
+            }
+        ],
+        "surroundingsSTLName": "surroundings"
+    },
+    "timeUnit": "s",
+    "turbulenceModeling": {
+        "DESModelType": "SpalartAllmarasDES",
+        "LESModelType": "Smagorinsky",
+        "RANSModelType": "kEpsilon",
+        "simulationType": "LES"
+    },
+    "type": "SurroundedBuildingCFD",
+    "windCharacteristics": {
+        "aerodynamicRoughnessLength": 0.003,
+        "airDensity": 1.225,
+        "kinematicViscosity": 1.5e-05,
+        "referenceHeight": 0.18,
+        "referenceWindSpeed": 8.25,
+        "timeScale": 33.3333,
+        "velocityScale": 3
+    }
+}
