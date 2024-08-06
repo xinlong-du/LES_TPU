@@ -7515,7 +7515,7 @@
                         0.010010000318288803
                     ]
                 ],
-                "importedPressureSamplingPointsPath": "C:/D/SimCenter/TPU_Tap_Coordinates_WE-UQ_Import.csv",
+                "importedPressureSamplingPointsPath": "C:/D/LES_TPU/TPU_Tap_Coordinates_WE-UQ_Import.csv",
                 "monitorBaseLoad": false,
                 "monitorSurfacePressure": true,
                 "numStories": 10,

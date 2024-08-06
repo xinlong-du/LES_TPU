@@ -1312,7 +1312,7 @@
         "sidesBoundaryCondition": "symmetry",
         "topBoundaryCondition": "symmetry"
     },
-    "caseDirectoryPath": "C:/D/SimCenter/LES_TPU_Main_A90_V02",
+    "caseDirectoryPath": "C:/D/LES_TPU/LES_TPU_Main_A90_V02",
     "lengthUnit": "m",
     "massUnit": "kg",
     "numericalSetup": {
@@ -7460,7 +7460,7 @@
                 0.010010000318288803
             ]
         ],
-        "importedPressureSamplingPointsPath": "C:/D/SimCenter/TPU_Tap_Coordinates_WE-UQ_Import.csv",
+        "importedPressureSamplingPointsPath": "C:/D/LES_TPU/TPU_Tap_Coordinates_WE-UQ_Import.csv",
         "monitorBaseLoad": false,
         "monitorSurfacePressure": true,
         "numStories": 10,
