@@ -41,4 +41,4 @@ source /work2/05660/abiy/stampede3/OpenFOAM/OpenFOAM-10/etc/bashrc
 
 # Launch MPI code... 
 
-ibrun ./myprogram         # Use ibrun instead of mpirun or mpiexec
+./Allrun
