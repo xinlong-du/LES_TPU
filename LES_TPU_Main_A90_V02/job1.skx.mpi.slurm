@@ -26,10 +26,10 @@
 #SBATCH -J myjob           # Job name
 #SBATCH -o myjob.o%j       # Name of stdout output file
 #SBATCH -e myjob.e%j       # Name of stderr error file
-#SBATCH -p skx-dev         # Queue (partition) name
+#SBATCH -p skx             # Queue (partition) name
 #SBATCH -N 4               # Total # of nodes 
 #SBATCH -n 192             # Total # of mpi tasks
-#SBATCH -t 2:00:00         # Run time (hh:mm:ss)
+#SBATCH -t 24:00:00        # Run time (hh:mm:ss)
 #SBATCH --mail-user=du.xinl@northeastern.edu
 #SBATCH --mail-type=all    # Send email at begin and end of job
 #SBATCH -A DesignSafe-SimCenter       # Allocation name (req'd if you have more than 1)
