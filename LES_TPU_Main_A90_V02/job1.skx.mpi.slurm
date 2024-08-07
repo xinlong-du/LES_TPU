@@ -38,6 +38,8 @@
 
 ml intel/24.0
 source /work2/05660/abiy/stampede3/OpenFOAM/OpenFOAM-10/etc/bashrc
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD
+export FOAM_USER_LIBBIN=$PWD
 
 # Launch MPI code... 
 
