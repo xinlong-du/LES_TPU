@@ -31,7 +31,7 @@ U=7.14822; #reference wind speed (m/s)
 lesCp=lesP/(0.5*U*U); #The pressure is kinematic pressure pk=ps/rho (m^2/s^2)
 
 #%% compare TPU and LES data: time series
-for i in range(0,9):
+for i in range(0,5):
     fig=plt.figure(figsize=big_fig_size)
     ax = fig.add_axes([0, 0, 1, 1])
     lesPlot,=ax.plot(time,lesCp[0:,i], linewidth=plt_line_width)
@@ -116,7 +116,7 @@ plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
 ax.tick_params(direction="in")
 ax.set_xlabel('Tap ID',fontsize=fig_font_size)
-ax.set_ylabel('Max of Cp',fontsize=fig_font_size)
+ax.set_ylabel('Cp',fontsize=fig_font_size)
 ax.legend([maxLesPlot,maxTpuPlot,minLesPlot,minTpuPlot],['LES max','TPU max','LES min','TPU min'],prop={'size': fig_font_size})
 
 fig=plt.figure(figsize=sml_fig_size)
@@ -135,7 +135,7 @@ plt.axis('equal')
 ax.legend(['Max','Min'],prop={'size': fig_font_size})
 
 #%% compare TPU and LES data: histogram
-for i in range(0,9):
+for i in range(0,5):
     fig=plt.figure(figsize=big_fig_size)
     plt.hist(lesCp[0:,i], density=True, bins=30, alpha = 0.5, range=(-2.5,0.5), edgecolor='black')  # density=False would make counts
     plt.hist(tpuCp[0:len(time),i], density=True, bins=30, alpha = 0.5, range=(-2.5,0.5), edgecolor='black') 
