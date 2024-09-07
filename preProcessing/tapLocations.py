@@ -33,20 +33,25 @@ ax.set_ylabel('Y (m)',fontsize=fig_font_size)
 plt.axis('equal')
 
 #%% calculate 3D coordinates for pressure taps
-tapXYZface5=np.stack((tapX[0:96],tapY[0:96],np.full((96,),12.0)),axis=1);
+tapXYZface5=np.stack((tapX[0:96],tapY[0:96],np.full((96,),12.01)),axis=1);
 
 tapXface1=tapX[96:126];
 tapYface1=tapY[96:126];
-tapXYZface1=np.stack((np.full((30,),-12.0),tapYface1,tapXface1+34),axis=1);
+tapXYZface1=np.stack((np.full((30,),-12.01),tapYface1,tapXface1+34),axis=1);
 
 tapXface2=tapX[126:168];
 tapYface2=tapY[126:168];
-tapXYZface2=np.stack((tapXface2,np.full((42,),-8.0),tapYface2+24),axis=1);
+tapXYZface2=np.stack((tapXface2,np.full((42,),-8.01),tapYface2+24),axis=1);
 
 tapXface3=tapX[168:198];
 tapYface3=tapY[168:198];
-tapXYZface3=np.stack((np.full((30,),12.0),tapYface3,34-tapXface3),axis=1);
+tapXYZface3=np.stack((np.full((30,),12.01),tapYface3,34-tapXface3),axis=1);
 
 tapXface4=tapX[198:];
 tapYface4=tapY[198:];
-tapXYZface4=np.stack((tapXface4,np.full((42,),8.0),24-tapYface4),axis=1);
+tapXYZface4=np.stack((tapXface4,np.full((42,),8.01),24-tapYface4),axis=1);
+
+tapXYZ=np.vstack((tapXYZface5,tapXYZface1,tapXYZface2,tapXYZface3,tapXYZface4));
+tapXYZmodel=tapXYZ/100.0;
+
+np.savetxt("flat_g12060000.csv",tapXYZmodel,delimiter=",");
