@@ -17,15 +17,28 @@ fig_font_size = 8;
 
 #%% load data
 #load TPU wind tunnel test data
-tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12042290.mat');
+#tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12042290.mat'); #gable
+#tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12060000.mat'); #flat
+tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_h12064500.mat');  #hip
+
 tpuCp=tpuData['Wind_pressure_coefficients'];
 
 #load LES data
-lesData1=np.loadtxt('./LES_data/0/p');
-lesData2=np.loadtxt('./LES_data/7.6/p');
-lesData=np.vstack((lesData1[0:3800,:],lesData2));
-lesP=lesData[1:,1:];
-time=lesData[1:,0];
+#gable
+# lesData1=np.loadtxt('./LES_data/Gable/0/p');
+# lesData2=np.loadtxt('./LES_data/Gable/7.6/p');
+# lesData=np.vstack((lesData1[0:3800,:],lesData2));
+
+#flat
+# lesData1=np.loadtxt('./LES_data/Flat/0/p');
+# lesData2=np.loadtxt('./LES_data/Flat/11.4/p');
+# lesData=np.vstack((lesData1[0:5700,:],lesData2));
+
+#hip
+lesData=np.loadtxt('./LES_data/Hip/p');
+
+lesP=lesData[501:,1:];
+time=lesData[1:9001,0];
 
 U=7.14822; #reference wind speed (m/s)
 lesCp=lesP/(0.5*U*U); #The pressure is kinematic pressure pk=ps/rho (m^2/s^2)
@@ -46,7 +59,7 @@ for i in range(0,5):
 #%% compare TPU and LES data: mean Cp
 meanTpuCp=np.mean(tpuCp[0:len(time),:],axis=0);
 meanLesCp=np.mean(lesCp,axis=0);
-tapID=np.arange(200);
+tapID=np.arange(np.size(tpuCp,1));
 
 fig=plt.figure(figsize=big_fig_size)
 ax = fig.add_axes([0, 0, 1, 1])
