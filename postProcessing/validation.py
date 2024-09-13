@@ -44,6 +44,21 @@ time=lesData[1:9001,0];
 U=7.14822; #reference wind speed (m/s)
 lesCp=lesP/(0.5*U*U); #The pressure is kinematic pressure pk=ps/rho (m^2/s^2)
 
+#%% plot coordinates of pressure taps
+tapCoord=tpuData['Location_of_measured_points'];
+tapX=tapCoord[0,:];
+tapY=tapCoord[1,:];
+
+fig=plt.figure(figsize=sml_fig_size)
+ax = fig.add_axes([0, 0, 1, 1])
+ax.scatter(tapX,tapY,marker='.',s=25)
+plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
+ax.tick_params(direction="in")
+ax.set_xlabel('X (m)',fontsize=fig_font_size)
+ax.set_ylabel('Y (m)',fontsize=fig_font_size)
+plt.axis('equal')
+
 #%% compare TPU and LES data: time series
 for i in range(0,5):
     fig=plt.figure(figsize=big_fig_size)
@@ -85,6 +100,23 @@ ax.set_ylabel('Mean Cp from TPU',fontsize=fig_font_size)
 plt.xlim(-1.25,1);
 plt.ylim(-1.25,1);
 plt.axis('equal')
+
+#contour plot of mean Cp
+fig,ax=plt.subplots(1, 1) 
+[X,Y]=np.meshgrid(tapX,tapY)
+plt.plot(X,Y, marker='.', color='k', linestyle='none')
+
+fig,ax=plt.subplots(1, 1) 
+t=ax.tricontourf(tapX, tapY, meanTpuCp) 
+ax.set_title('TPU mean Cp') 
+plt.colorbar(t)
+plt.show()
+
+fig,ax=plt.subplots(1, 1) 
+t=ax.tricontourf(tapX, tapY, meanLesCp) 
+ax.set_title('LES mean Cp')  
+plt.colorbar(t)
+plt.show()
 
 #%% compare TPU and LES data: std
 stdTpuCp=np.std(tpuCp[0:len(time),:],axis=0);
