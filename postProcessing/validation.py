@@ -189,6 +189,18 @@ plt.show()
 
 fig,ax=plt.subplots(1, 1) 
 t=ax.tricontourf(tapX, tapY, maxLesCp, levels=np.linspace(-0.5,5,12)) 
+ax.set_title('LES max Cp')  
+plt.colorbar(t)
+plt.show()
+
+fig,ax=plt.subplots(1, 1) 
+t=ax.tricontourf(tapX, tapY, minTpuCp, levels=np.linspace(-7.0,0.0,8)) 
+ax.set_title('TPU min Cp') 
+plt.colorbar(t)
+plt.show()
+
+fig,ax=plt.subplots(1, 1) 
+t=ax.tricontourf(tapX, tapY, minLesCp, levels=np.linspace(-7.0,0.0,8)) 
 ax.set_title('LES min Cp')  
 plt.colorbar(t)
 plt.show()
