@@ -9,6 +9,7 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import math
 
 big_fig_size = (6,3);
 sml_fig_size = (3,3);
@@ -16,6 +17,7 @@ plt_line_width = 0.5;
 fig_font_size = 8;
 
 #load TPU wind tunnel test data
+windDir=15; #deg
 #tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12060000.mat');
 tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_h12064500.mat');
 tapCoord=tpuData['Location_of_measured_points'];
@@ -91,4 +93,8 @@ tapXYZface4=np.stack((tapXface4,np.full((42,),8.01),24-tapYface4),axis=1);
 tapXYZ=np.vstack((tapXYZface8,tapXYZface6,tapXYZface5,tapXYZface7,tapXYZface1,tapXYZface2,tapXYZface3,tapXYZface4));
 tapXYZmodel=tapXYZ/100.0;
 
-np.savetxt("flat_h12064500.csv",tapXYZmodel,delimiter=",");
+tapXrot= tapXYZmodel[:,0]*math.cos(windDir/180*math.pi)+tapXYZmodel[:,1]*math.sin(windDir/180*math.pi);
+tapYrot=-tapXYZmodel[:,0]*math.sin(windDir/180*math.pi)+tapXYZmodel[:,1]*math.cos(windDir/180*math.pi);
+tapXYZmodelRot=np.stack((tapXrot,tapYrot,tapXYZmodel[:,2]),axis=1);
+
+np.savetxt("hip_h12064515.csv",tapXYZmodelRot,delimiter=",");
