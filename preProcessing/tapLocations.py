@@ -17,9 +17,9 @@ plt_line_width = 0.5;
 fig_font_size = 8;
 
 #load TPU wind tunnel test data
-windDir=30; #deg
-#tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12060000.mat');
-tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_h12064500.mat');
+windDir=15; #deg
+tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12060000.mat');
+#tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_h12064500.mat');
 tapCoord=tpuData['Location_of_measured_points'];
 tapX=tapCoord[0,:];
 tapY=tapCoord[1,:];
@@ -36,7 +36,7 @@ ax.set_ylabel('Y (m)',fontsize=fig_font_size)
 plt.axis('equal')
 
 #%% calculate 3D coordinates for pressure taps
-"""
+
 tapXYZface5=np.stack((tapX[0:96],tapY[0:96],np.full((96,),12.01)),axis=1);
 
 tapXface1=tapX[96:126];
@@ -58,7 +58,11 @@ tapXYZface4=np.stack((tapXface4,np.full((42,),8.01),24-tapYface4),axis=1);
 tapXYZ=np.vstack((tapXYZface5,tapXYZface1,tapXYZface2,tapXYZface3,tapXYZface4));
 tapXYZmodel=tapXYZ/100.0;
 
-np.savetxt("flat_g12060000.csv",tapXYZmodel,delimiter=",");
+tapXrot= tapXYZmodel[:,0]*math.cos(windDir/180*math.pi)+tapXYZmodel[:,1]*math.sin(windDir/180*math.pi);
+tapYrot=-tapXYZmodel[:,0]*math.sin(windDir/180*math.pi)+tapXYZmodel[:,1]*math.cos(windDir/180*math.pi);
+tapXYZmodelRot=np.stack((tapXrot,tapYrot,tapXYZmodel[:,2]),axis=1);
+
+np.savetxt("flat_g12060015.csv",tapXYZmodelRot,delimiter=",");
 """
 tapXYZface8=np.stack((tapX[0:28],tapY[0:28],20.01-tapY[0:28]),axis=1);
 
@@ -98,3 +102,4 @@ tapYrot=-tapXYZmodel[:,0]*math.sin(windDir/180*math.pi)+tapXYZmodel[:,1]*math.co
 tapXYZmodelRot=np.stack((tapXrot,tapYrot,tapXYZmodel[:,2]),axis=1);
 
 np.savetxt("hip_h12064530.csv",tapXYZmodelRot,delimiter=",");
+"""
