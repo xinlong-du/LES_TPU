@@ -17,8 +17,9 @@ plt_line_width = 0.5;
 fig_font_size = 8;
 
 #load TPU wind tunnel test data
-windDir=15; #deg
-tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12060000.mat');
+windDir=90; #deg
+tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12042200.mat');
+#tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_g12060000.mat');
 #tpuData=scipy.io.loadmat('../postprocessing/TPU_data/Cp_ts_h12064500.mat');
 tapCoord=tpuData['Location_of_measured_points'];
 tapX=tapCoord[0,:];
@@ -36,7 +37,26 @@ ax.set_ylabel('Y (m)',fontsize=fig_font_size)
 plt.axis('equal')
 
 #%% calculate 3D coordinates for pressure taps
+beta=21.8/180*math.pi;
+H=8*math.tan(beta)+8;
 
+tapXYZface6=np.stack((tapX[0:48],tapY[0:48]*math.cos(beta),H+0.01-tapY[0:48]*math.sin(beta)),axis=1);
+tapXYZface5=np.stack((tapX[48:96],tapY[48:96]*math.cos(beta),H+0.01+tapY[48:96]*math.sin(beta)),axis=1);
+tapXYZface1=np.stack((np.full((24,),-12.01),tapY[96:120],tapX[96:120]+30),axis=1);
+tapXYZface2=np.stack((tapX[120:148],np.full((28,),-8.01),tapY[120:148]+20),axis=1);
+tapXYZface3=np.stack((np.full((24,),12.01),tapY[148:172],30-tapX[148:172]),axis=1);
+tapXYZface4=np.stack((tapX[172:],np.full((28,),8.01),20-tapY[172:]),axis=1);
+
+tapXYZ=np.vstack((tapXYZface6,tapXYZface5,tapXYZface1,tapXYZface2,tapXYZface3,tapXYZface4));
+tapXYZmodel=tapXYZ/100.0;
+
+tapXrot= tapXYZmodel[:,0]*math.cos(windDir/180*math.pi)+tapXYZmodel[:,1]*math.sin(windDir/180*math.pi);
+tapYrot=-tapXYZmodel[:,0]*math.sin(windDir/180*math.pi)+tapXYZmodel[:,1]*math.cos(windDir/180*math.pi);
+tapXYZmodelRot=np.stack((tapXrot,tapYrot,tapXYZmodel[:,2]),axis=1);
+
+np.savetxt("gable_g12042290.csv",tapXYZmodelRot,delimiter=",");
+
+"""
 tapXYZface5=np.stack((tapX[0:96],tapY[0:96],np.full((96,),12.01)),axis=1);
 
 tapXface1=tapX[96:126];
@@ -63,6 +83,7 @@ tapYrot=-tapXYZmodel[:,0]*math.sin(windDir/180*math.pi)+tapXYZmodel[:,1]*math.co
 tapXYZmodelRot=np.stack((tapXrot,tapYrot,tapXYZmodel[:,2]),axis=1);
 
 np.savetxt("flat_g12060015.csv",tapXYZmodelRot,delimiter=",");
+"""
 """
 tapXYZface8=np.stack((tapX[0:28],tapY[0:28],20.01-tapY[0:28]),axis=1);
 
