@@ -13,16 +13,17 @@ import matplotlib as mpl
 U=7.14822; #reference wind speed (m/s)
 
 #%% hip
-#dirs=['0','15','30','45','60','75','90'];
-dirs=['15']
+dirs=['0','15','30','45','60','75','90'];
+#dirs=['15']
 for dir1 in dirs:
     lesData=np.loadtxt('./LES_data/Hip/p'+dir1);
     lesP=lesData[501:,1:];
     time=lesData[1:9001,0];
     lesCp=lesP/(0.5*U*U); #The pressure is kinematic pressure pk=ps/rho (m^2/s^2)
-    np.savetxt("./LES_data/Cp/lesCpH"+dir1+".csv",lesCp,delimiter=",");
+    np.savetxt("./LES_data/Cp/lesCpH"+dir1+".csv",lesCp,fmt='%2.6f',delimiter=",");
 
 #%% compare TPU and LES data: peak
+'''
 tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_h12064515.mat');  #hip
 tpuCp=tpuData['Wind_pressure_coefficients'];
 
@@ -64,3 +65,4 @@ plt.xlim(-10,5);
 plt.ylim(-10,5);
 plt.axis('equal')
 ax.legend(['Max','Min'],prop={'size': fig_font_size})
+'''
