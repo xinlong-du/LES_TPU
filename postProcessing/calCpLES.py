@@ -21,16 +21,20 @@ for dir1 in dirs:
         lesData=np.vstack((lesData1[0:int(9.5*500),:],lesData2));
     elif dir1=='15':
         lesData2=np.loadtxt('./LES_data/Gable/p'+dir1+'_1.9');
-        lesData=np.vstack((lesData1[0:int(1.9*500),:],lesData2));
+        lesData3=np.loadtxt('./LES_data/Gable/p'+dir1+'_9.5');
+        lesData4=np.loadtxt('./LES_data/Gable/p'+dir1+'_17.1');
+        lesData=np.vstack((lesData1[0:int(1.9*500),:],lesData2[0:int((9.5-1.9)*500),:],lesData3[0:int((17.1-9.5)*500),:],lesData4));
     elif dir1=='30':
         lesData2=np.loadtxt('./LES_data/Gable/p'+dir1+'_7.6');
-        lesData=np.vstack((lesData1[0:int(7.6*500),:],lesData2));
+        lesData3=np.loadtxt('./LES_data/Gable/p'+dir1+'_17.1');
+        lesData=np.vstack((lesData1[0:int(7.6*500),:],lesData2[0:int((17.1-7.6)*500),:],lesData3));
     elif dir1=='45':
         lesData2=np.loadtxt('./LES_data/Gable/p'+dir1+'_9.5');
         lesData=np.vstack((lesData1[0:int(9.5*500),:],lesData2));
     elif dir1=='60':
         lesData2=np.loadtxt('./LES_data/Gable/p'+dir1+'_7.6');
-        lesData=np.vstack((lesData1[0:int(7.6*500),:],lesData2));
+        lesData3=np.loadtxt('./LES_data/Gable/p'+dir1+'_15.2');
+        lesData=np.vstack((lesData1[0:int(7.6*500),:],lesData2[0:int((15.2-7.6)*500),:],lesData3));
     elif dir1=='75':
         lesData2=np.loadtxt('./LES_data/Gable/p'+dir1+'_11.4');
         lesData=np.vstack((lesData1[0:int(11.4*500),:],lesData2));
