@@ -6,6 +6,7 @@ Created on Wed Oct  2 15:00:09 2024
 """
 import numpy as np
 import pandas as pd
+import scipy as sp
 
 #%% input
 recordDF=pd.read_csv('../postProcessing/LES_data/Cp/lesCpF0.csv',header=None);
@@ -43,7 +44,8 @@ for i in range(0,rsize):
     # resample CDF more coarsely for more efficient parameter estimation:
     n_coarse = min(n,1000);
     CDF_coarse = np.linspace(1/(n_coarse+1),n_coarse/(n_coarse+1),n_coarse);
-    X_coarse = np.interp1(CDF_X, sort_X, CDF_coarse);
+    temp = sp.interpolate.interp1d(CDF_X, sort_X);
+    X_coarse = temp(CDF_coarse);
     
     # Estimate shape parameter of gamma distribution from coarse CDF:
     mean_X_coarse = np.mean(X_coarse);
