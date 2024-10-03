@@ -61,8 +61,8 @@ for i in range(0,rsize):
     gam_PPCC_list = np.zeros(np.size(gamma_list));
     count = 0;
     # first try decreasing gamma:
-    beta_coarse_list=[];
-    mu_coarse_list=[];
+    beta_coarse_list=np.zeros(n_gamma);
+    mu_coarse_list=np.zeros(n_gamma);
     for j in range(n_start-1,-1,-1):
         count = count+1;
         # Obtain the Gamma Distribution Parameters for current gamma:
@@ -72,16 +72,38 @@ for i in range(0,rsize):
         beta_coarse_list[j] = (sum(s_gam_j*X_coarse)-n_coarse*mean_s_gam_j*mean_X_coarse)/(sum(s_gam_j**2)-n_coarse*mean_s_gam_j**2);
         mu_coarse_list[j] = mean_X_coarse - beta_coarse_list[j]*mean_s_gam_j;
         # Probability Plot Correlation Coefficient:
-        gam_PPCC_list[j] = beta_coarse_list[j]*np.std(s_gam_j)/np.std_X_coarse;
-        X_coarse_fit_j = mu_coarse_list[j] + beta_coarse_list(j)*s_gam_j;
+        gam_PPCC_list[j] = beta_coarse_list[j]*np.std(s_gam_j)/std_X_coarse;
+        X_coarse_fit_j = mu_coarse_list[j] + beta_coarse_list[j]*s_gam_j;
         if plot_on:
-            fig = plt.figure()
-            #if count==1: clf;
-            plt.subplot(7,3,count)
+            plt.figure();
             plt.plot(s_gam_j,X_coarse,'.',s_gam_j,X_coarse_fit_j,'-');
             plt.title('gamma: ');
-        if gam_PPCC_list(j)==max(gam_PPCC_list):
-            gam = gamma_list(j);
-            gam_PPCC_max = gam_PPCC_list(j);
+            plt.show();
+        if gam_PPCC_list[j]==max(gam_PPCC_list):
+            gam = gamma_list[j];
+            gam_PPCC_max = gam_PPCC_list[j];
         else:
             break; # stop searching once the PPCC starts to decrease
+    if gam_PPCC_list[n_start-2]<gam_PPCC_list[n_start-1]:
+        # if the PPCC decreased with decreasing gamma, try increasing gamma: 
+        for j in range(n_start,n_gamma):
+            count = count+1;
+            # Obtain the Gamma Distribution Parameters for current gamma:
+            s_gam_j = stdgaminv(CDF_coarse, gamma_list[j]); # standard variate
+            mean_s_gam_j = np.mean(s_gam_j);
+            # linear regression:
+            beta_coarse_list[j] = (sum(s_gam_j*X_coarse)-n_coarse*mean_s_gam_j*mean_X_coarse)/(sum(s_gam_j**2)-n_coarse*mean_s_gam_j**2);
+            mu_coarse_list[j] = mean_X_coarse - beta_coarse_list[j]*mean_s_gam_j;
+            # Probability Plot Correlation Coefficient:
+            gam_PPCC_list[j] = beta_coarse_list[j]*np.std(s_gam_j)/std_X_coarse;
+            X_coarse_fit_j = mu_coarse_list[j] + beta_coarse_list[j]*s_gam_j;
+            if plot_on:
+                plt.figure()
+                plt.plot(s_gam_j,X_coarse,'.',s_gam_j,X_coarse_fit_j,'-');
+                plt.title('gamma: ');
+                plt.show();
+            if gam_PPCC_list[j]==max(gam_PPCC_list):
+                gam = gamma_list[j];
+                gam_PPCC_max = gam_PPCC_list[j];
+            else:
+                break; # stop searching once the PPCC starts to decrease
