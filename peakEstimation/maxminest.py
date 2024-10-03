@@ -63,10 +63,10 @@ for i in range(0,rsize):
     # first try decreasing gamma:
     beta_coarse_list=[];
     mu_coarse_list=[];
-    for j in range(n_start,0,-1):
+    for j in range(n_start-1,-1,-1):
         count = count+1;
         # Obtain the Gamma Distribution Parameters for current gamma:
-        s_gam_j = stdgaminv(CDF_coarse, gamma_list(j)); # standard variate
+        s_gam_j = stdgaminv(CDF_coarse, gamma_list[j]); # standard variate
         mean_s_gam_j = np.mean(s_gam_j);
         # linear regression:
         beta_coarse_list[j] = (sum(s_gam_j*X_coarse)-n_coarse*mean_s_gam_j*mean_X_coarse)/(sum(s_gam_j**2)-n_coarse*mean_s_gam_j**2);
