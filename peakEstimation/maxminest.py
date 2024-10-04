@@ -14,7 +14,7 @@ from stdgaminv import stdgaminv
 recordDF=pd.read_csv('../postProcessing/LES_data/Cp/lesCpF0.csv',header=None);
 record=recordDF.to_numpy().transpose()
 dur_ratio=1.0;
-plot_on=1;
+plot_on=0;
 
 #%% setup
 n_cdf_pk = 1000;     # number of points in CDF for peaks
@@ -196,5 +196,5 @@ for i in range(0,rsize):
     else:
         max_est[i] = -np.trapz(pdf_pk*X_min,y_pk);
         min_est[i] = -np.trapz(pdf_pk*X_max,y_pk);
-        max_std[i] = np.trapz((-X_min-max_est(i))**2*pdf_pk,y_pk);
-        min_std[i] = np.trapz((-X_max-min_est(i))**2*pdf_pk,y_pk);
+        max_std[i] = np.trapz((-X_min-max_est[i])**2*pdf_pk,y_pk);
+        min_std[i] = np.trapz((-X_max-min_est[i])**2*pdf_pk,y_pk);
