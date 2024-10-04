@@ -107,3 +107,27 @@ for i in range(0,rsize):
                 gam_PPCC_max = gam_PPCC_list[j];
             else:
                 break; # stop searching once the PPCC starts to decrease
+                
+    # Obtain the Gamma Distribution Parameters for the best-fit gamma using all the data:
+    s_gam = stdgaminv(CDF_X, gam); # standard variate
+    mean_s_gam = np.mean(s_gam);
+    
+    beta = (sum(s_gam*sort_X)-n*mean_s_gam*mean_X)/(sum(s_gam**2)-n*mean_s_gam**2);
+    mu = mean_X - beta*mean_s_gam;
+    gam_PPCC = beta*np.std(s_gam)/std_X;
+
+    X_fit = mu + beta*s_gam;
+    if plot_on:
+        plt.figure()
+        plt.plot(gamma_list[np.where(gam_PPCC_list)],gam_PPCC_list[np.where(gam_PPCC_list)],'.',gam,gam_PPCC_max,'o')
+        plt.xlabel('Shape parameter, gamma');
+        plt.ylabel('PPCC');
+        plt.show()
+        
+        plt.figure()
+        plt.plot(s_gam,sort_X,'.',s_gam,X_fit,'-');
+        plt.xlabel('Standard variate for gamma distribution');
+        plt.ylabel('Value of time series');
+        plt.title('gamma: ');
+        plt.legend(['All data','Best-fit gamma distribution'])
+        plt.show()
