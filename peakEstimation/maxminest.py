@@ -26,6 +26,8 @@ rsize = np.size(record,0);
 
 max_est = np.zeros([rsize,1]);
 min_est = np.zeros([rsize,1]);
+max_std = np.zeros([rsize,1]);
+min_std = np.zeros([rsize,1]);
 
 for i in range(0,rsize):
     x = record[i,:];
@@ -138,9 +140,9 @@ for i in range(0,rsize):
     temp = sp.interpolate.interp1d(CDF_X, sort_X, );
     X_split = temp(CDF_split);
     ind_low = np.where(sort_X<X_split);
-    X_low = sort_X(ind_low);
+    X_low = sort_X[ind_low];
     n_low = len(X_low);
-    CDF_low = CDF_X(ind_low);
+    CDF_low = CDF_X[ind_low];
 
     s_norm_low = -np.sqrt(2)*sp.special.erfcinv(2*CDF_low); # standard normal variate
     mean_s_norm_low = np.mean(s_norm_low);
@@ -158,7 +160,7 @@ for i in range(0,rsize):
         plt.xlabel('Standard normal variate');
         plt.ylabel('Value of time series');
         plt.title('Normal distribution fit to lower tail');
-        plt.legend(['Lower tail data','Best-fit Normal distribution'],'Location','NorthWest')
+        plt.legend(['Lower tail data','Best-fit Normal distribution'])
         plt.show()
         
         plt.figure();
@@ -170,8 +172,9 @@ for i in range(0,rsize):
    
     # Compute the mean zero upcrossing rate of process y(t) with standardized
     # normal probability distribution.
-    X_u = np.mean(sort_X( np.where(abs(CDF_X - 0.5) == min(abs(CDF_X - 0.5))) )); # upcrossing level
-    Nupcross = len(np.where( X[2:]>=X_u and X[1:-2]<X_u )); # number of upcrossings
+    X_u = np.mean(sort_X[ np.where(abs(CDF_X - 0.5) == min(abs(CDF_X - 0.5))) ]); # upcrossing level
+    upcross=np.where( (X[1:]>=X_u) & (X[0:-1]<X_u) );
+    Nupcross = len(upcross[0]); # number of upcrossings
     if Nupcross<100:
         print('The number of median upcrossings is low. The record may be too short for accurate peak estimation.');
     y_pk = np.sqrt(2.0*np.log(-dur_ratio*Nupcross / np.log(cdf_pk))); # maximum peaks corresponding to specified cumulative probabilities
@@ -185,16 +188,13 @@ for i in range(0,rsize):
     # Compute the Mean of the Peaks for process X(t)
     pdf_pk = -y_pk * cdf_pk * np.log(cdf_pk);
     
-    max_std=np.zeros(rsize);
-    min_std=np.zeros(rsize);
     if np.sign(skew_x)>0:
-        max_est[i] = np.trapz(y_pk,pdf_pk*X_max);
-        min_est[i] = np.trapz(y_pk,pdf_pk*X_min);
-        
-        max_std[i] = np.trapz(y_pk,(X_max-max_est[i])**2*pdf_pk);
-        min_std[i] = np.trapz(y_pk,(X_min-min_est[i])**2*pdf_pk);
+        max_est[i] = np.trapz(pdf_pk*X_max,y_pk);
+        min_est[i] = np.trapz(pdf_pk*X_min,y_pk);
+        max_std[i] = np.trapz((X_max-max_est[i])**2*pdf_pk,y_pk);
+        min_std[i] = np.trapz((X_min-min_est[i])**2*pdf_pk,y_pk);
     else:
-        max_est[i] = -np.trapz(y_pk,pdf_pk*X_min);
-        min_est[i] = -np.trapz(y_pk,pdf_pk*X_max);
-        max_std[i] = np.trapz(y_pk,(-X_min-max_est(i))**2*pdf_pk);
-        min_std[i] = np.trapz(y_pk,(-X_max-min_est(i))**2*pdf_pk);
+        max_est[i] = -np.trapz(pdf_pk*X_min,y_pk);
+        min_est[i] = -np.trapz(pdf_pk*X_max,y_pk);
+        max_std[i] = np.trapz((-X_min-max_est(i))**2*pdf_pk,y_pk);
+        min_std[i] = np.trapz((-X_max-min_est(i))**2*pdf_pk,y_pk);
