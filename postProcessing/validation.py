@@ -9,6 +9,9 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import sys
+sys.path.append('C:\D\LES_TPU\peakEstimation')
+from maxminest import maxminest
 
 big_fig_size = (6,3);
 sml_fig_size = (3,3);
@@ -155,6 +158,13 @@ maxLesCp=np.max(lesCp,axis=0);
 minTpuCp=np.min(tpuCp[0:len(time),:],axis=0);
 minLesCp=np.min(lesCp,axis=0);
 
+dur_ratio=1;
+plot_on=0;
+tpuRec=tpuCp.transpose();
+lesRec=lesCp.transpose();
+maxTpuCp2,minTpuCp2,maxTPUstd,minTPUstd=maxminest(tpuRec,dur_ratio,plot_on);
+maxLesCp2,minLesCp2,maxLESstd,minLESstd=maxminest(lesRec,dur_ratio,plot_on);
+
 fig=plt.figure(figsize=big_fig_size)
 ax = fig.add_axes([0, 0, 1, 1])
 maxLesPlot,=ax.plot(tapID,maxLesCp,linewidth=plt_line_width,color="k")
@@ -182,6 +192,23 @@ plt.xlim(-10,5);
 plt.ylim(-10,5);
 plt.axis('equal')
 ax.legend(['Max','Min'],prop={'size': fig_font_size})
+plt.show()
+
+fig=plt.figure(figsize=sml_fig_size)
+ax = fig.add_axes([0, 0, 1, 1])
+ax.scatter(maxLesCp2,maxTpuCp2,marker='.',s=25)
+ax.scatter(minLesCp2,minTpuCp2,marker='.',s=25)
+ax.plot([-10,5],[-10,5],'r-');
+plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
+ax.tick_params(direction="in")
+ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
+ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
+plt.xlim(-10,5);
+plt.ylim(-10,5);
+plt.axis('equal')
+ax.legend(['Max','Min'],prop={'size': fig_font_size})
+plt.show()
 
 #contour plot of peak Cp
 fig,ax=plt.subplots(1, 1) 
