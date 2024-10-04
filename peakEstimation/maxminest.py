@@ -131,3 +131,70 @@ for i in range(0,rsize):
         plt.title('gamma: ');
         plt.legend(['All data','Best-fit gamma distribution'])
         plt.show()
+        
+    # Obtain the Normal Distribution Parameters for lower portion of CDF
+
+    CDF_split = .25; # fit normal distribution to data below this cumulative probability
+    temp = sp.interpolate.interp1d(CDF_X, sort_X, );
+    X_split = temp(CDF_split);
+    ind_low = np.where(sort_X<X_split);
+    X_low = sort_X(ind_low);
+    n_low = len(X_low);
+    CDF_low = CDF_X(ind_low);
+
+    s_norm_low = -np.sqrt(2)*sp.special.erfcinv(2*CDF_low); # standard normal variate
+    mean_s_norm_low = np.mean(s_norm_low);
+    mean_X_low = np.mean(X_low);
+    # linear regression:
+    sigma_low = (sum(s_norm_low*X_low)-n_low*mean_s_norm_low*mean_X_low)/(sum(s_norm_low**2)-n_low*mean_s_norm_low**2);
+    mu_low = mean_X_low - sigma_low*mean_s_norm_low;
+    X_low_fit = mu_low + sigma_low*s_norm_low;
+    # Probability Plot Correlation Coefficient:
+    norm_PPCC = sigma_low*np.std(s_norm_low)/np.std(X_low);
+
+    if plot_on:
+        plt.figure()
+        plt.plot(s_norm_low,X_low,'.',s_norm_low,X_low_fit,'-');
+        plt.xlabel('Standard normal variate');
+        plt.ylabel('Value of time series');
+        plt.title('Normal distribution fit to lower tail');
+        plt.legend(['Lower tail data','Best-fit Normal distribution'],'Location','NorthWest')
+        plt.show()
+        
+        plt.figure();
+        plt.plot(sort_X,CDF_X,'k.',X_fit,CDF_X,'r-',X_low_fit,CDF_low,'g-');
+        plt.xlabel('Value of time series');
+        plt.ylabel('Cumulative Probability');
+        plt.legend(['Empirical CDF: all data','Gamma distribution fit to all data','Normal distribution fit to lower tail']);
+        plt.show()
+   
+    # Compute the mean zero upcrossing rate of process y(t) with standardized
+    # normal probability distribution.
+    X_u = np.mean(sort_X( np.where(abs(CDF_X - 0.5) == min(abs(CDF_X - 0.5))) )); # upcrossing level
+    Nupcross = len(np.where( X[2:]>=X_u and X[1:-2]<X_u )); # number of upcrossings
+    if Nupcross<100:
+        print('The number of median upcrossings is low. The record may be too short for accurate peak estimation.');
+    y_pk = np.sqrt(2.0*np.log(-dur_ratio*Nupcross / np.log(cdf_pk))); # maximum peaks corresponding to specified cumulative probabilities
+    CDF_y = 0.5*sp.special.erfc(-y_pk/np.sqrt(2));
+
+    # Perform the mapping procedure to compute the CDF of largest peak
+    # for X(t) from y(t)
+    X_max = stdgaminv(CDF_y,gam)*beta + mu;
+    X_min = -np.sqrt(2)*sp.special.erfcinv(2*(1-CDF_y))*sigma_low + mu_low;
+    
+    # Compute the Mean of the Peaks for process X(t)
+    pdf_pk = -y_pk * cdf_pk * np.log(cdf_pk);
+    
+    max_std=np.zeros(rsize);
+    min_std=np.zeros(rsize);
+    if np.sign(skew_x)>0:
+        max_est[i] = np.trapz(y_pk,pdf_pk*X_max);
+        min_est[i] = np.trapz(y_pk,pdf_pk*X_min);
+        
+        max_std[i] = np.trapz(y_pk,(X_max-max_est[i])**2*pdf_pk);
+        min_std[i] = np.trapz(y_pk,(X_min-min_est[i])**2*pdf_pk);
+    else:
+        max_est[i] = -np.trapz(y_pk,pdf_pk*X_min);
+        min_est[i] = -np.trapz(y_pk,pdf_pk*X_max);
+        max_std[i] = np.trapz(y_pk,(-X_min-max_est(i))**2*pdf_pk);
+        min_std[i] = np.trapz(y_pk,(-X_max-min_est(i))**2*pdf_pk);
