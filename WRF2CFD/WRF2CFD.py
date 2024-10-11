@@ -11,19 +11,20 @@ from pathlib import Path
 import math
 import numpy as np
 
+
 # Step 2: Parameter Settings
-wrf_file_path = ''; # WRF output file path
-output_dir = '';    # Output directory
-cfd_grid_file = ''; # CFD grid coordinates file
+wrf_file_path = './input/wrfout_d03_2008-08-06_020000.nc'; # WRF output file path
+output_dir = './output';    # Output directory
+cfd_grid_file = './input/test_CFD_grid_10m_spacing.csv'; # CFD grid coordinates file
 
 # Ensure output directory exists
-Path("./output_dir").mkdir(parents=True, exist_ok=True)
+Path("./output").mkdir(parents=True, exist_ok=True)
 
 # Step 3: Input CFD Boundary Parameters
-start_lat = 37.8;   #input('Enter starting latitude of CFD boundary:');
-start_lon = -122.3; #input('Enter starting longitude of CFD boundary:');
-boundary_length = 100; #input('Enter boundary length (meters):');
-grid_resolution = 1;   #input('Enter WRF grid resolution (in meters):');
+start_lat = 22.29;   #input('Enter starting latitude of CFD boundary:');
+start_lon = 114.1977; #input('Enter starting longitude of CFD boundary:');
+boundary_length = 2000; #input('Enter boundary length (meters):');
+grid_resolution = 444.4;   #input('Enter WRF grid resolution (in meters):');
 boundary_direction = 1;#input('Enter boundary direction (1 for east-west, 2 for north-south):');
 
 R = 6371000; # Earth's average radius (meters)
@@ -50,3 +51,25 @@ else:
 print('Number of generated CFD boundary points:', num_points);
 print('Starting point: Latitude, Longitude', start_lat, start_lon);
 print('Ending point: Latitude, Longitude', cfd_lat[-1], cfd_lon[-1]);
+
+# Step 6: Read WRF data
+from scipy.io import netcdf
+file2read = netcdf.NetCDFFile(wrf_file_path,'r');
+times = file2read.variables['Times'];
+num_files = times.shape[0];
+
+lonGrid = file2read.variables['XLONG'];
+latGrid = file2read.variables['XLAT'];
+ph_data = file2read.variables['PH'];   # Perturbation geopotential
+phb_data = file2read.variables['PHB']; # Base-state geopotential
+u_data = file2read.variables['U'];
+v_data = file2read.variables['V'];
+w_data = file2read.variables['W'];
+pressure_data = file2read.variables['P'];
+terrain_data = file2read.variables['HGT'];
+
+import netCDF4
+file2read2 = netCDF4.Dataset(wrf_file_path,'r')
+times2 = file2read2.variables['Times']  # access a variable in the file
+lonGrid2 = file2read2.variables['XLONG'];
+latGrid2 = file2read2.variables['XLAT'];
