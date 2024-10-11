@@ -4,3 +4,7 @@
 *.csv
 
 postProcessing/LES_data/
+
+*.docx
+
+*.nc
