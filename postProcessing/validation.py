@@ -158,7 +158,7 @@ maxLesCp=np.max(lesCp,axis=0);
 minTpuCp=np.min(tpuCp[0:len(time),:],axis=0);
 minLesCp=np.min(lesCp,axis=0);
 
-dur_ratio=1;
+dur_ratio=6;
 plot_on=0;
 tpuRec=tpuCp.transpose();
 lesRec=lesCp.transpose();
@@ -182,14 +182,14 @@ fig=plt.figure(figsize=sml_fig_size)
 ax = fig.add_axes([0, 0, 1, 1])
 ax.scatter(maxLesCp,maxTpuCp,marker='.',s=25)
 ax.scatter(minLesCp,minTpuCp,marker='.',s=25)
-ax.plot([-10,5],[-10,5],'r-');
+ax.plot([-10,6],[-10,6],'r-');
 plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
 ax.tick_params(direction="in")
 ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
 ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
-plt.xlim(-10,5);
-plt.ylim(-10,5);
+plt.xlim(-10,6);
+plt.ylim(-10,6);
 plt.axis('equal')
 ax.legend(['Max','Min'],prop={'size': fig_font_size})
 plt.show()
@@ -198,14 +198,14 @@ fig=plt.figure(figsize=sml_fig_size)
 ax = fig.add_axes([0, 0, 1, 1])
 ax.scatter(maxLesCp2,maxTpuCp2,marker='.',s=25)
 ax.scatter(minLesCp2,minTpuCp2,marker='.',s=25)
-ax.plot([-10,5],[-10,5],'r-');
+ax.plot([-10,6],[-10,6],'r-');
 plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
 ax.tick_params(direction="in")
 ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
 ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
-plt.xlim(-10,5);
-plt.ylim(-10,5);
+plt.xlim(-10,6);
+plt.ylim(-10,6);
 plt.axis('equal')
 ax.legend(['Max','Min'],prop={'size': fig_font_size})
 plt.show()
