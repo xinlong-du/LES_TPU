@@ -39,18 +39,20 @@ for dir1 in dirs:
     ax = fig.add_axes([0, 0, 1, 1])
     ax.scatter(maxCpLES,maxCpTPU,marker='.',s=10,label='Max')
     ax.scatter(minCpLES,minCpTPU,marker='.',s=10,label='Min')
-    ax.plot([-10,6],[-10,6],'k-');
-    ax.plot([-10,6],[-10/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.9,6/0.9],'b-',linewidth=0.5);
-    ax.plot([-10,6],[-10/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6,6],'k-');
+    ax.plot([-6,6],[-6/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.9,6/0.9],'b-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.3,6/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.7,6/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
     ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
     ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
-    plt.xlim(-10,6);
-    plt.ylim(-10,6);
+    # plt.xlim(-10,6);
+    # plt.ylim(-10,6);
     plt.axis('equal')
     plt.legend(prop={'size': fig_font_size})
     figName='../postProcessing/LES_data/Cp/CompPeakCpF'+dir1+'.tif'
@@ -78,18 +80,20 @@ for dir1 in dirs:
     ax = fig.add_axes([0, 0, 1, 1])
     ax.scatter(maxCpLES,maxCpTPU,marker='.',s=10,label='Max')
     ax.scatter(minCpLES,minCpTPU,marker='.',s=10,label='Min')
-    ax.plot([-10,6],[-10,6],'k-');
-    ax.plot([-10,6],[-10/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.9,6/0.9],'b-',linewidth=0.5);
-    ax.plot([-10,6],[-10/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6,6],'k-');
+    ax.plot([-6,6],[-6/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.9,6/0.9],'b-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.3,6/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.7,6/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
     ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
     ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
-    plt.xlim(-10,6);
-    plt.ylim(-10,6);
+    # plt.xlim(-10,6);
+    # plt.ylim(-10,6);
     plt.axis('equal')
     plt.legend(prop={'size': fig_font_size})
     figName='../postProcessing/LES_data/Cp/CompPeakCpG'+dir1+'.tif'
@@ -117,18 +121,20 @@ for dir1 in dirs:
     ax = fig.add_axes([0, 0, 1, 1])
     ax.scatter(maxCpLES,maxCpTPU,marker='.',s=10,label='Max')
     ax.scatter(minCpLES,minCpTPU,marker='.',s=10,label='Min')
-    ax.plot([-10,6],[-10,6],'k-');
-    ax.plot([-10,6],[-10/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.9,6/0.9],'b-',linewidth=0.5);
-    ax.plot([-10,6],[-10/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-10,6],[-10/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6,6],'k-');
+    ax.plot([-6,6],[-6/1.1,6/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.9,6/0.9],'b-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.2,6/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.8,6/0.8],'r-',linewidth=0.5);
+    ax.plot([-6,6],[-6/1.3,6/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-6,6],[-6/0.7,6/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
     ax.set_xlabel('Max/min of Cp from LES',fontsize=fig_font_size)
     ax.set_ylabel('Max/min of Cp from TPU',fontsize=fig_font_size)
-    plt.xlim(-10,6);
-    plt.ylim(-10,6);
+    # plt.xlim(-10,6);
+    # plt.ylim(-10,6);
     plt.axis('equal')
     plt.legend(prop={'size': fig_font_size})
     figName='../postProcessing/LES_data/Cp/CompPeakCpH'+dir1+'.tif'
