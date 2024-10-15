@@ -20,9 +20,9 @@ fig_font_size = 8;
 
 #%% load data
 #load TPU wind tunnel test data
-tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12042290.mat'); #gable
+#tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12042290.mat'); #gable
 #tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_g12060000.mat'); #flat
-#tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_h12064515.mat');  #hip
+tpuData=scipy.io.loadmat('./TPU_data/Cp_ts_h12064515.mat');  #hip
 
 tpuCp=tpuData['Wind_pressure_coefficients'];
 
@@ -32,9 +32,9 @@ tpuCp=tpuData['Wind_pressure_coefficients'];
 # lesData2=np.loadtxt('./LES_data/Gable/7.6/p');
 # lesData3=np.loadtxt('./LES_data/Gable/17.1/p');
 # lesData=np.vstack((lesData1[0:3800,:],lesData2[0:4750,:],lesData3));
-lesData1=np.loadtxt('./LES_data/Gable/p90_0');
-lesData2=np.loadtxt('./LES_data/Gable/p90_15.2');
-lesData=np.vstack((lesData1[0:int(15.2*500),:],lesData2));
+# lesData1=np.loadtxt('./LES_data/Gable/p90_0');
+# lesData2=np.loadtxt('./LES_data/Gable/p90_15.2');
+# lesData=np.vstack((lesData1[0:int(15.2*500),:],lesData2));
 
 #flat
 # lesData1=np.loadtxt('./LES_data/Flat/p0_0');
@@ -42,7 +42,7 @@ lesData=np.vstack((lesData1[0:int(15.2*500),:],lesData2));
 # lesData=np.vstack((lesData1[0:5700,:],lesData2));
 
 #hip
-# lesData=np.loadtxt('./LES_data/Hip/p');
+lesData=np.loadtxt('./LES_data/Hip/p15');
 
 lesP=lesData[501:,1:];
 time=lesData[1:9001,0];
