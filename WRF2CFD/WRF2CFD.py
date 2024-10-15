@@ -124,28 +124,30 @@ wrf_z = z_full_point - terrain_data[0, 2, 0];
 
 # Step 10: Interpolation and Data Output
 results_matrix = np.zeros([len(face_id), 6]);  # Matrix to store interpolated results
-results_matrix[:, 1] = face_id;  # First column is face_id
-results_matrix[:, 2] = cfd_x;    # Second column is x coordinate
-results_matrix[:, 3] = cfd_y;    # Third column is y coordinate
-results_matrix[:, 4] = cfd_z;    # Fourth column is z coordinate
+results_matrix[:, 0] = face_id;  # First column is face_id
+results_matrix[:, 1] = cfd_x;    # Second column is x coordinate
+results_matrix[:, 2] = cfd_y;    # Third column is y coordinate
+results_matrix[:, 3] = cfd_z;    # Fourth column is z coordinate
 
-for j in range(1,num_files):
-    time_str = strtrim(times[:, j]);  # Extract and clean the time string
-    time_str_safe = strrep(time_str, ':', '-');  # Replace colons with hyphens
+for j in range(0,num_files):
+    time_str = str(times[j,:], 'UTF-8');  # Extract and clean the time string
+    time_str_safe = time_str.replace(':', '-');  # Replace colons with hyphens
     
-    for i in range(1,num_points):
+    for i in range(0,num_points):
 
         # Get the WRF grid index for each CFD boundary point
-        locX = min(abs(lonGrid[:,1,1] - cfd_lon[i]));
-        locY = min(abs(latGrid[1,:,1] - cfd_lat[i]));
+        locXtemp = abs(lonGrid[0,0,:] - cfd_lon[i]);
+        locYtemp = abs(latGrid[0,:,0] - cfd_lat[i]);
+        locX = np.argmin(locXtemp);
+        locY = np.argmin(locYtemp);
 
         # Ensure locX and locY are within valid ranges
-        locX = max(1, min(locX, size(u_data_centered, 1)));
-        locY = max(1, min(locY, size(v_data_centered, 2)));
+        locX = max(0, min(locX, np.size(u_data_centered, 3)-1));
+        locY = max(0, min(locY, np.size(v_data_centered, 2)-1));
 
         # Extract wind profile data for this point
-        hgt = squeeze(z_centered[locX, locY, :, j]);  # Use centered height data
-        ter_point = terrain_data(locX, locY);
+        hgt = z_centered[j, :, locY, locX];  # Use centered height data
+        ter_point = terrain_data[0, locY, locX];
 
         u_point = squeeze(u_data_centered[locX, locY, :, j]);
         v_point = squeeze(v_data_centered[locX, locY, :, j]);
