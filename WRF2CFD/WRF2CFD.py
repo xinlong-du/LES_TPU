@@ -11,6 +11,7 @@ from pathlib import Path
 import math
 import numpy as np
 import pandas as pd
+from scipy.interpolate import griddata
 
 # Step 2: Parameter Settings
 wrf_file_path = './input/wrfout_d03_2008-08-06_020000.nc'; # WRF output file path
@@ -176,68 +177,61 @@ for j in range(0,num_files):
     
     # Add wind speed data for z = 0
     z_0 = 0;  
-    u_0 = zeros(size(u_wrf[1, :]));  
-    v_0 = zeros(size(v_wrf[1, :]));  
+    u_0 = np.zeros((1,np.size(u_wrf[1, :])));  
+    v_0 = np.zeros((1,np.size(v_wrf[1, :])));  
 
     # Extend wrf_z, u_wrf, v_wrf to include data for z = 0
     wrf_z_extended = np.append(z_0, wrf_z);  
-    u_wrf_extended = np.append(u_0, u_wrf);  
-    v_wrf_extended = np.append(v_0, v_wrf);  
+    u_wrf_extended = np.vstack((u_0, u_wrf));  
+    v_wrf_extended = np.vstack((v_0, v_wrf));  
 
     # Get WRF grid dimensions
-    [num_levels, num_horiz] = size(u_wrf_extended); 
+    num_levels = np.size(u_wrf_extended,0);
+    num_horiz = np.size(u_wrf_extended,1);
 
     if boundary_direction == 1:
-        [wrf_y_2d, wrf_z_2d] = ndgrid(wrf_y, wrf_z_extended);  
+        wrf_y_2d, wrf_z_2d = np.meshgrid(wrf_y, wrf_z_extended, indexing='ij');  
 
-        u_wrf_2d = permute(u_wrf_extended, [2, 1]);  
-        v_wrf_2d = permute(v_wrf_extended, [2, 1]);
+        u_wrf_2d = u_wrf_extended.transpose();  
+        v_wrf_2d = v_wrf_extended.transpose();
 
-        wrf_y_flat = double(wrf_y_2d);
-        wrf_z_flat = double(wrf_z_2d);
-        u_wrf_flat = double(u_wrf_2d);
-        v_wrf_flat = double(v_wrf_2d);
+        wrf_y_flat = wrf_y_2d.flatten(order='F');
+        wrf_z_flat = wrf_z_2d.flatten(order='F');
+        u_wrf_flat = u_wrf_2d.flatten(order='F');
+        v_wrf_flat = v_wrf_2d.flatten(order='F');
 
-        F_u = scatteredInterpolant(wrf_y_flat, wrf_z_flat, u_wrf_flat, 'linear', 'none');
-        F_v = scatteredInterpolant(wrf_y_flat, wrf_z_flat, v_wrf_flat, 'linear', 'none');    
-        
-        for i in range(1,length(cfd_y)):
-            y_cfd = cfd_y(i);
-            z_cfd = cfd_z(i);
+        points=np.stack((wrf_y_flat,wrf_z_flat),axis=1);
+        for i in range(0,len(cfd_y)):
+            y_cfd = cfd_y[i];
+            z_cfd = cfd_z[i];
 
-            u_cfd_interp = F_u(y_cfd, z_cfd);
-            v_cfd_interp = F_v(y_cfd, z_cfd);
+            u_cfd_interp = griddata(points,u_wrf_flat,(y_cfd, z_cfd),method='linear');
+            v_cfd_interp = griddata(points,v_wrf_flat,(y_cfd, z_cfd),method='linear');
 
-            results_matrix[i, 5] = u_cfd_interp;  
-            results_matrix[i, 6] = v_cfd_interp;  
-        end
+            results_matrix[i, 4] = u_cfd_interp;  
+            results_matrix[i, 5] = v_cfd_interp;
     
     elif boundary_direction == 2:
-        [wrf_x_2d, wrf_z_2d] = ndgrid(wrf_x, wrf_z_extended);  
+        wrf_x_2d, wrf_z_2d = np.meshgrid(wrf_x, wrf_z_extended, indexing='ij');  
 
-        u_wrf_2d = permute(u_wrf_extended, [2, 1]);  
-        v_wrf_2d = permute(v_wrf_extended, [2, 1]);
+        u_wrf_2d = u_wrf_extended.transpose();  
+        v_wrf_2d = v_wrf_extended.transpose();
 
-        wrf_x_flat = double(wrf_x_2d);
-        wrf_z_flat = double(wrf_z_2d);
-        u_wrf_flat = double(u_wrf_2d);
-        v_wrf_flat = double(v_wrf_2d);
+        wrf_x_flat = wrf_x_2d.flatten(order='F');
+        wrf_z_flat = wrf_z_2d.flatten(order='F');
+        u_wrf_flat = u_wrf_2d.flatten(order='F');
+        v_wrf_flat = v_wrf_2d.flatten(order='F');
 
-        F_u = scatteredInterpolant(wrf_x_flat, wrf_z_flat, u_wrf_flat, 'natural', 'none');
-        F_v = scatteredInterpolant(wrf_x_flat, wrf_z_flat, v_wrf_flat, 'natural', 'none');    
-        
-        for i in range(1,length(cfd_x)):
+        points=np.stack((wrf_x_flat,wrf_z_flat),axis=1);
+        for i in range(0,len(cfd_x)):
             x_cfd = cfd_x(i);
             z_cfd = cfd_z(i);
 
-            u_cfd_interp = F_u(x_cfd, z_cfd);
-            v_cfd_interp = F_v(x_cfd, z_cfd);
+            u_cfd_interp = griddata(points,u_wrf_flat,(x_cfd, z_cfd),method='cubic');
+            v_cfd_interp = griddata(points,v_wrf_flat,(x_cfd, z_cfd),method='cubic');
 
-            results_matrix[i, 5] = u_cfd_interp;  
-            results_matrix[i, 6] = v_cfd_interp;  
-        end
-        
-    end
+            results_matrix[i, 4] = u_cfd_interp;  
+            results_matrix[i, 5] = v_cfd_interp;  
 
     # Save Results to a File
     column_names = {'faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity'};
