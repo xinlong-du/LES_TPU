@@ -10,3 +10,5 @@ postProcessing/LES_data/
 *.nc
 
 *.txt
+
+*.png

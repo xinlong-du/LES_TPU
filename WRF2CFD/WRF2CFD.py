@@ -12,6 +12,7 @@ import math
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata
+import matplotlib.pyplot as plt
 
 # Step 2: Parameter Settings
 wrf_file_path = './input/wrfout_d03_2008-08-06_020000.nc'; # WRF output file path
@@ -237,41 +238,39 @@ for j in range(0,num_files):
     column_names = np.array(['faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity']);
     column_names = column_names.reshape(1,6);
     output_file = '%s/D03_velocity_%s.txt'% (output_dir, time_str_safe);
-    f=open(output_file,'a');
+    f=open(output_file,'w');
     np.savetxt(f, column_names, fmt='%s', delimiter='\t');
+    f.close();
+    f=open(output_file,'a');
     np.savetxt(f, results_matrix, fmt='%5.4f', delimiter='\t');
     f.close();
 
     # Plot - Compare Interpolated Results and Original Results
-    figure;
+    fig=plt.figure(figsize=(6,6));
+    ax=fig.add_subplot(projection='3d');
+    fig_font_size = 8;
     
     if boundary_direction == 1:
-        scatter3(wrf_y_2d, u_wrf_2d, wrf_z_2d, 50, 'k', 'filled');
-        #hold on;
-        scatter3(results_matrix[:, 3], results_matrix[:, 5], results_matrix[:, 4], 'r');  
-        colorbar;
-        xlabel('Y (m)');
-        ylabel('U Velocity (m/s)');
-        zlabel('Z (m)');
+        ax.scatter(wrf_y_2d, u_wrf_2d, wrf_z_2d, s=10, label='Original WRF Data');
+        ax.scatter(results_matrix[:, 2], results_matrix[:, 4], results_matrix[:, 3], s=5, label='Interpolated CFD Data');
+        ax.set_xlabel('Y (m)');
+        ax.set_ylabel('U Velocity (m/s)');
+        ax.set_zlabel('Z (m)');
     elif boundary_direction == 2:
-        scatter3(wrf_x_2d, u_wrf_2d, wrf_z_2d, 50, 'k', 'filled');
-        #hold on;
-        scatter3(results_matrix[:, 2], results_matrix[:, 5], results_matrix[:, 4], 'r');  
-        colorbar;
-        xlabel('X (m)');
-        ylabel('U Velocity (m/s)');
-        zlabel('Z (m)');
-    end
+        ax.scatter(wrf_x_2d, u_wrf_2d, wrf_z_2d, s=10, label='Original WRF Data');
+        ax.scatter(results_matrix[:, 1], results_matrix[:, 4], results_matrix[:, 3], s=5, label='Interpolated CFD Data');
+        ax.set_xlabel('X (m)');
+        ax.set_ylabel('U Velocity (m/s)');
+        ax.set_zlabel('Z (m)');
     
-
-    title(sprintf('Comparison of Original WRF and Interpolated CFD Results at Time %s', time_str_safe));
-    legend('Original WRF Data', 'Interpolated CFD Data');
+    plt.title('Comparison of Original WRF and Interpolated CFD Results at Time %s' % time_str_safe);
+    plt.legend(loc='upper right')
 
     # Set z-axis range
     z_max = max(cfd_z);
-    zlim([0, z_max]);    
+    ax.set_zlim([0, z_max]);    
 
     # Save the plot
-    saveas(gcf, sprintf('%sComparison_%s.png', output_dir, time_str_safe));
-    
-end
+    figName='%s/Comparison_%s.png' % (output_dir, time_str_safe);
+    plt.savefig(figName, transparent=False, bbox_inches='tight', dpi=100)
+    plt.show()

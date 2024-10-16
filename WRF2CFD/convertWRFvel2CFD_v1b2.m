@@ -276,6 +276,6 @@ for j = 1:num_files
     zlim([0 z_max]);    
 
     % Save the plot
-    saveas(gcf, sprintf('%sComparison_%s.png', output_dir, time_str_safe));
+    saveas(gcf, sprintf('%s/Comparison_%s.png', output_dir, time_str_safe));
     
 end
