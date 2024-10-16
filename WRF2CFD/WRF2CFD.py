@@ -133,6 +133,8 @@ for j in range(0,num_files):
     time_str = str(times[j,:], 'UTF-8');  # Extract and clean the time string
     time_str_safe = time_str.replace(':', '-');  # Replace colons with hyphens
     
+    u_wrf=np.zeros(shape=(np.size(u_data_centered,1), num_points));
+    v_wrf=np.zeros(shape=(np.size(v_data_centered,1), num_points));
     for i in range(0,num_points):
 
         # Get the WRF grid index for each CFD boundary point
@@ -149,27 +151,27 @@ for j in range(0,num_files):
         hgt = z_centered[j, :, locY, locX];  # Use centered height data
         ter_point = terrain_data[0, locY, locX];
 
-        u_point = squeeze(u_data_centered[locX, locY, :, j]);
-        v_point = squeeze(v_data_centered[locX, locY, :, j]);
-        w_point = squeeze(w_data[locX, locY, :, j]);         # Height dimension
-        p_point = squeeze(pressure_data[locX, locY, :, j]);  # Height dimension
-        spd_point = sqrt(u_point**2 + v_point**2);
+        u_point = u_data_centered[j, :, locY, locX];
+        v_point = v_data_centered[j, :, locY, locX];
+        w_point = w_data[j, :, locY, locX];         # Height dimension
+        p_point = pressure_data[j, :, locY, locX];  # Height dimension
+        spd_point = np.sqrt(u_point**2 + v_point**2);
 
         # Output wind profile data to a file
-        output_file = sprintf('%sD03_%s_%d_%d.txt', output_dir, time_str_safe, i);
-        alist_1 = [hgt, u_point, v_point, spd_point, p_point];
-        writematrix(alist_1, output_file, 'Delimiter', 'tab');
+        output_file = '%s/D03_%s_%d.txt' % (output_dir, time_str_safe, i);
+        alist_1 = np.stack((hgt, u_point, v_point, spd_point, p_point),axis=1);
+        np.savetxt(output_file, alist_1, fmt='%5.4f', delimiter='\t');
 
         # Output terrain height data to a file
-        output_file_terrain = sprintf('%sD03_terrain_height.txt', output_dir);
-        alist_2 = [cfd_lon(i), cfd_lat(i), ter_point];
-        writematrix(alist_2, output_file_terrain, 'Delimiter', 'tab', 'WriteMode', 'append');
+        output_file_terrain = '%s/D03_terrain_height.txt' % (output_dir);
+        alist_2 = np.vstack((cfd_lon[i], cfd_lat[i], ter_point)).transpose();
+        f=open(output_file_terrain,'a');
+        np.savetxt(f, alist_2, fmt='%5.4f', delimiter='\t');
+        f.close();
         
         u_wrf[:,i] = u_point;
         v_wrf[:,i] = v_point;
 
-    end
-    
     wrf_z = hgt - ter_point; 
     
     # Add wind speed data for z = 0

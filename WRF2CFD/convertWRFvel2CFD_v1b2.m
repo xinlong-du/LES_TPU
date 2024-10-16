@@ -25,9 +25,9 @@ clc; clear; close all;
 
 % Step 2: Parameter Settings
 
-wrf_file_path = '/Users/fmckenna/NHERI/wrf/test_case/wrfout_d03_2008-08-06_020000.nc'; % WRF output file path
-cfd_grid_file = '/Users/fmckenna/NHERI/wrf/test_case/test_CFD_grid_10m_spacing.csv'; % CFD grid coordinates file
-output_dir = '/Users/fmckenna/NHERI/wrf/output'; % Output directory
+wrf_file_path = './input/wrfout_d03_2008-08-06_020000.nc'; % WRF output file path
+cfd_grid_file = './input/test_CFD_grid_10m_spacing.csv'; % CFD grid coordinates file
+output_dir = './outputMATLAB'; % Output directory
 
 % Ensure output directory exists
 if ~exist(output_dir, 'dir')
@@ -159,12 +159,12 @@ for j = 1:num_files
         spd_point = sqrt(u_point.^2 + v_point.^2);
 
         % Output wind profile data to a file
-        output_file = sprintf('%sD03_%s_%d_%d.txt', output_dir, time_str_safe, i);
+        output_file = sprintf('%s/D03_%s_%d.txt', output_dir, time_str_safe, i);
         alist_1 = [hgt, u_point, v_point, spd_point, p_point];
         writematrix(alist_1, output_file, 'Delimiter', 'tab');
 
         % Output terrain height data to a file
-        output_file_terrain = sprintf('%sD03_terrain_height.txt', output_dir);
+        output_file_terrain = sprintf('%s/D03_terrain_height.txt', output_dir);
         alist_2 = [cfd_lon(i), cfd_lat(i), ter_point];
         writematrix(alist_2, output_file_terrain, 'Delimiter', 'tab', 'WriteMode', 'append');
         
