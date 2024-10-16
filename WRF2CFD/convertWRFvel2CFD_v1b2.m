@@ -242,7 +242,7 @@ for j = 1:num_files
 
     % Save Results to a File
     column_names = {'faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity'};
-    output_file = sprintf('%sD03_velocity_%s.txt', output_dir, time_str_safe);
+    output_file = sprintf('%s/D03_velocity_%s.txt', output_dir, time_str_safe);
     results_table = array2table(results_matrix, 'VariableNames', column_names);
     writetable(results_table, output_file, 'Delimiter', '\t');
 

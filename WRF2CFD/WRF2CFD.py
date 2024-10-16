@@ -235,7 +235,7 @@ for j in range(0,num_files):
 
     # Save Results to a File
     column_names = np.array(['faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity']);
-    column_names = column_names.reshape(column_names,(6,1));
+    column_names = column_names.reshape(1,6);
     output_file = '%s/D03_velocity_%s.txt'% (output_dir, time_str_safe);
     f=open(output_file,'a');
     np.savetxt(f, column_names, fmt='%s', delimiter='\t');
