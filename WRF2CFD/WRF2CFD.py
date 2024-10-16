@@ -11,6 +11,7 @@ from pathlib import Path
 import math
 import numpy as np
 import pandas as pd
+from scipy.io import netcdf_file
 from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
 
@@ -55,7 +56,6 @@ print('Starting point: Latitude, Longitude', start_lat, start_lon);
 print('Ending point: Latitude, Longitude', cfd_lat[-1], cfd_lon[-1]);
 
 # Step 6: Read WRF data
-from scipy.io import netcdf_file
 file2read = netcdf_file(wrf_file_path,'r');
 times = file2read.variables['Times'];
 num_files = times.shape[0];
@@ -69,14 +69,6 @@ v_data = file2read.variables['V'];
 w_data = file2read.variables['W'];
 pressure_data = file2read.variables['P'];
 terrain_data = file2read.variables['HGT'];
-
-#file2read.close();
-
-import netCDF4
-file2read2 = netCDF4.Dataset(wrf_file_path,'r')
-times2 = file2read2.variables['Times']  # access a variable in the file
-lonGrid2 = file2read2.variables['XLONG'];
-latGrid2 = file2read2.variables['XLAT'];
 
 # Step 7: Calculate Height (in meters)
 g = 9.81; # Gravitational acceleration (m/s²)
