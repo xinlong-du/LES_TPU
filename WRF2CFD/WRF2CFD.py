@@ -234,10 +234,13 @@ for j in range(0,num_files):
             results_matrix[i, 5] = v_cfd_interp;  
 
     # Save Results to a File
-    column_names = {'faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity'};
-    output_file = sprintf('%sD03_velocity_%s.txt', output_dir, time_str_safe);
-    results_table = array2table(results_matrix, 'VariableNames', column_names);
-    writetable(results_table, output_file, 'Delimiter', '\t');
+    column_names = np.array(['faceID', 'x', 'y', 'z', 'xvelocity', 'yvelocity']);
+    column_names = column_names.reshape(column_names,(6,1));
+    output_file = '%s/D03_velocity_%s.txt'% (output_dir, time_str_safe);
+    f=open(output_file,'a');
+    np.savetxt(f, column_names, fmt='%s', delimiter='\t');
+    np.savetxt(f, results_matrix, fmt='%5.4f', delimiter='\t');
+    f.close();
 
     # Plot - Compare Interpolated Results and Original Results
     figure;
