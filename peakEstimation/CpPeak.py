@@ -33,14 +33,14 @@ for dir1 in dirs:
     
     fig=plt.figure(figsize=sml_fig_size)
     ax = fig.add_axes([0, 0, 1, 1])
-    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10,label='Max')
-    ax.plot([-2,2],[-2,2],'k-');
-    ax.plot([-2,2],[-2/1.1,2/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.9,2/0.9],'b-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.2,2/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.8,2/0.8],'r-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.3,2/1.3],'m-',label='+/-30%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.7,2/0.7],'m-',linewidth=0.5);
+    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10)
+    ax.plot([-1.5,1.5],[-1.5,1.5],'k-');
+    ax.plot([-1.5,1.5],[-1.5/1.1,1.5/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.9,1.5/0.9],'b-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.2,1.5/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.8,1.5/0.8],'r-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.3,1.5/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.7,1.5/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
@@ -69,14 +69,14 @@ for dir1 in dirs:
     
     fig=plt.figure(figsize=sml_fig_size)
     ax = fig.add_axes([0, 0, 1, 1])
-    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10,label='Max')
-    ax.plot([-2,2],[-2,2],'k-');
-    ax.plot([-2,2],[-2/1.1,2/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.9,2/0.9],'b-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.2,2/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.8,2/0.8],'r-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.3,2/1.3],'m-',label='+/-30%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.7,2/0.7],'m-',linewidth=0.5);
+    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10)
+    ax.plot([-1.5,1.5],[-1.5,1.5],'k-');
+    ax.plot([-1.5,1.5],[-1.5/1.1,1.5/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.9,1.5/0.9],'b-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.2,1.5/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.8,1.5/0.8],'r-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.3,1.5/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.7,1.5/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
@@ -105,14 +105,14 @@ for dir1 in dirs:
     
     fig=plt.figure(figsize=sml_fig_size)
     ax = fig.add_axes([0, 0, 1, 1])
-    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10,label='Max')
-    ax.plot([-2,2],[-2,2],'k-');
-    ax.plot([-2,2],[-2/1.1,2/1.1],'b-',label='+/-10%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.9,2/0.9],'b-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.2,2/1.2],'r-',label='+/-20%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.8,2/0.8],'r-',linewidth=0.5);
-    ax.plot([-2,2],[-2/1.3,2/1.3],'m-',label='+/-30%',linewidth=0.5);
-    ax.plot([-2,2],[-2/0.7,2/0.7],'m-',linewidth=0.5);
+    ax.scatter(meanCpLES,meanCpTPU,marker='.',s=10)
+    ax.plot([-1.5,1.5],[-1.5,1.5],'k-');
+    ax.plot([-1.5,1.5],[-1.5/1.1,1.5/1.1],'b-',label='+/-10%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.9,1.5/0.9],'b-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.2,1.5/1.2],'r-',label='+/-20%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.8,1.5/0.8],'r-',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/1.3,1.5/1.3],'m-',label='+/-30%',linewidth=0.5);
+    ax.plot([-1.5,1.5],[-1.5/0.7,1.5/0.7],'m-',linewidth=0.5);
     plt.rc('xtick', labelsize=fig_font_size)    # fontsize of the tick labels
     plt.rc('ytick', labelsize=fig_font_size)    # fontsize of the tick labels
     ax.tick_params(direction="in")
